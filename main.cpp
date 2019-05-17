@@ -17,6 +17,8 @@ int filaJuego(char);
 
 string** turnoSegundoJugador(string**);
 
+string** capturaBlancos(string**, int, int);
+
 int main(){
 	cout<<"		--Bienvenido a Hnefatafl--"<<endl;
 	int tam = 11;
@@ -97,9 +99,9 @@ void liberarMemoria(string** matriz, int tam){
 
 void juego(string** matriz, int tam){
 	tam = 11;
-	bool condicion = false, movimiento;
+	bool condicion = true, movimiento;
 	string coordenadap = "", coordenadaMov;
-	//while(condicion){
+	while(condicion){
 		cout<<"		Turno del jugador 1"<<endl<< "Ingrese la coordenada de la pieza: ";
 		cin>> coordenadap;
 		char fila,letra1,letra2;
@@ -116,11 +118,12 @@ void juego(string** matriz, int tam){
 		if(columna >= 10){
 			columna--;
 		}
-		while(columna>11 || columna<0){
-			cout<<"La coordenada que ha ingresado no es válida."<<endl;
-			cout<<"Ingrese la columna de la pieza: ";
-			cin>> columna;
-		}
+		
+        	while(columna>11 || columna<0){
+                	 cout<<"La coordenada que ha ingresado no es válida."<<endl;
+                 	 cout<<"Ingrese la columna de la pieza: ";
+	                 cin>> columna;
+        	}
 		int fil = filaJuego(fila);
 		bool validacion = true;
 		while(validacion){
@@ -185,11 +188,33 @@ void juego(string** matriz, int tam){
 				cin>> columnam;
 			}
 		}
+		matriz = capturaBlancos(matriz,fil,columnam);
 		imprimirMat(matriz,tam);
 		cout<<endl<<"	Turno del segundo jugador"<<endl;
 		matriz = turnoSegundoJugador(matriz);
 		imprimirMat(matriz, tam);
-	//}
+		bool condicionRey;
+		int filaw, columnaw;
+		for(int i = 0; i<11; i++){
+			for(int j = 0; j<11; j++){
+				if(matriz[i][j] == "[W]"){
+					filaw = i;
+					columnaw = j;
+					condicionRey = true;
+					break;
+				}
+			}
+		}
+		if(condicionRey){
+			if((filaw == 0 && columnaw == 0) || (filaw == 0 && columnaw == 10) || (filaw == 10 && columnaw == 0) || (filaw== 10 && columnaw == 10)){
+				cout<<"¡Felicidades han ganado las fichas blancas!"<<endl;
+				condicion = false;
+			}
+		}else{
+			cout<<"¡Felicidades han ganado las fichas negras!"<<endl;
+			condicion = false;
+		}
+	}
 }
 
 string** turnoSegundoJugador(string** matriz){
