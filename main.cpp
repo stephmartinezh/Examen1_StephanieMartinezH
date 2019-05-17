@@ -505,3 +505,4 @@ int filaJuego(char letra){
         }
 	return col;
 }
+
