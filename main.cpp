@@ -168,6 +168,14 @@ void juego(string** matriz, int tam){
 					condicion2 = false;
 					break;
 				}
+				if((filMov == 0 && columnam == 0) || (filMov == 0 && columnam == 10) || (filMov == 10 && columnam == 0) || (filMov== 10 && columnam == 10)){
+                                cout<<"El movimiento de la pieza no puede ser hacia una esquina."<<endl;
+                                cout<<"Ingrese la fila: ";
+                                cin>> fila;
+                                fil = filaJuego(fila);
+                                cout<<"Ingrese la columna: ";
+                                cin>>columnam;
+                        }
 			}else{
 				cout<<"El movimiento que ha intendo hacer no es válido."<<endl;
 				cout<<"Ingrese la fila: ";
@@ -221,6 +229,19 @@ string** turnoSegundoJugador(string** matriz){
                 	validacion = false;
          	}
         }
+	validacion = true;
+	while(validacion){
+		if((fil == 4 && columna == 5) || (fil == 5 && columna == 5) || (fil == 6 && columna == 5) || (fil == 5 && columna == 4) || (fil == 5 && columna == 6)){
+			cout<<"La pieza que ha seleccionado no tiene posibilidades de moverse"<<endl;
+			cout<<"Ingrese la fila: ";
+                        cin>> fila;
+                        fil = filaJuego(fila);
+                        cout<<"Ingrese la columna: ";
+                        cin>>columna;	
+		}else{
+			validacion = false;
+		}
+	}
         cout<<"Ingrese la coordenada a donde desea mover la pieza: ";
         cin>> coordenadaMov;
         char filam, letram, letra2m;
@@ -248,12 +269,22 @@ string** turnoSegundoJugador(string** matriz){
                         	fil = filaJuego(fila);
                                 cout<<"Ingrese la columna: ";
                                 cin>>columnam;
-                         }else{
+                        }else{
                                 matriz[filMov][columnam] = "[B]";
                                 matriz[fil][columna] = "[ ]";
                                 condicion2 = false;
                                 break;
-                                }
+                        }
+			if(matriz[filMov][columnam] != "[W]"){
+				if((filMov == 0 && columnam == 0) || (filMov == 0 && columnam == 10) || (filMov == 10 && columnam == 0) || (filMov== 10 && columnam == 10)){
+					cout<<"El movimiento de la pieza no puede ser hacia una esquina."<<endl;
+					cout<<"Ingrese la fila: ";
+        	                        cin>> fila;
+                	                fil = filaJuego(fila);
+                        	        cout<<"Ingrese la columna: ";
+                                	cin>>columnam;
+				}
+			}
                         }else{
                                 cout<<"El movimiento que ha intendo hacer no es válido."<<endl;
                                 cout<<"Ingrese la fila: ";
@@ -262,7 +293,80 @@ string** turnoSegundoJugador(string** matriz){
                                 cout<<"Ingrese la columna: ";
                                 cin>> columnam;
                         }
+       	}
+	return matriz;
+}
+
+string** capturaBlancos(string** matriz, int fila, int columna){
+	bool hayNegros = false;
+	int filaNegro, columnaNegro;
+	//filas abajo de i
+	for(int i = fila; i<11; i++){
+		if(matriz[i][columna] == "[N]"){
+			hayNegros = true;
+			filaNegro = i;
+			columnaNegro = columna;
+			break;
+		}
+	}
+	if(hayNegros){
+		for(int i = fila; i<11; i++){
+			if(matriz[i][columna] == "[B]"){
+				matriz[i][columna] = "[ ]";
+			}
+		}
+	}
+	hayNegros = false;
+	//filas arriba de i
+	for(int i = fila; i>=0; i--){
+		if(matriz[i][columna] == "[N]"){
+                        hayNegros = true;
+                        filaNegro = i;
+                        columnaNegro = columna;
+                        break;
                 }
+	}
+	if(hayNegros){
+                for(int i = fila; i>=0; i--){
+                        if(matriz[i][columna] == "[B]"){
+                                matriz[i][columna] = "[ ]";
+                        }
+                }
+        }
+	hayNegros = false;
+	//columnas arriba de i
+	for(int i = columna; i<11; i++){
+		if(matriz[fila][i] == "[N]"){
+			hayNegros = true;
+			filaNegro = fila;
+			columnaNegro = i;
+			break;
+		}
+	}
+	if(hayNegros){
+		for(int i = columna; i<11; i++){
+			if(matriz[filaNegro][i] == "[B]"){
+				matriz[filaNegro][i] = "[ ]";
+			}
+		}
+	}
+	hayNegros = false;
+	//columnas abajo de i
+	  for(int i = columna; i>=0; i--){
+                if(matriz[fila][i] == "[N]"){
+                        hayNegros = true;
+                        filaNegro = fila;
+                        columnaNegro = i;
+                        break;
+                }
+        }
+        if(hayNegros){
+                for(int i = columna; i>=0; i--){
+                        if(matriz[filaNegro][i] == "[B]"){
+                                matriz[filaNegro][i] = "[ ]";
+                        }
+                }
+        }
 	return matriz;
 }
 
