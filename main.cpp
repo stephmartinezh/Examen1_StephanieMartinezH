@@ -395,6 +395,79 @@ string** capturaBlancos(string** matriz, int fila, int columna){
 	return matriz;
 }
 
+string** capturaNegros(string** matriz, int fila, int columna){
+	bool hayBlancos = false;
+        int filaBlanco, columnaBlanco;
+        //filas abajo de i
+        for(int i = fila; i<11; i++){
+                if(matriz[i][columna] == "[B]"){
+                        hayBlancos = true;
+                        filaBlanco = i;
+                        columnaBlanco = columna;
+                        break;
+                }
+        }
+        if(hayBlancos){
+                for(int i = fila; i<11; i++){
+                        if(matriz[i][columna] == "[N]"){
+                                matriz[i][columna] = "[ ]";
+                        }
+                }
+        }
+        hayBlancos = false;
+	//filas arriba de i
+        for(int i = fila; i>=0; i--){
+                if(matriz[i][columna] == "[B]"){
+                        hayBlancos = true;
+                        filaBlanco = i;
+                        columnaBlanco = columna;
+                        break;
+                }
+        }
+        if(hayBlancos){
+                for(int i = fila; i>=0; i--){
+                        if(matriz[i][columna] == "[N]"){
+                                matriz[i][columna] = "[ ]";
+                        }
+                }
+        }
+        hayBlancos = false;
+	//columnas arriba de i
+        for(int i = columna; i<11; i++){
+                if(matriz[fila][i] == "[B]"){
+                        hayBlancos = true;
+                        filaBlanco = fila;
+                        columnaBlanco = i;
+                        break;
+                }
+        }
+        if(hayBlancos){
+                for(int i = columna; i<11; i++){
+                        if(matriz[filaBlanco][i] == "[N]"){
+                                matriz[filaBlanco][i] = "[ ]";
+                        }
+                }
+        }
+        hayBlancos = false;
+	//columnas abajo de i
+          for(int i = columna; i>=0; i--){
+                if(matriz[fila][i] == "[B]"){
+                        hayBlancos = true;
+                        filaBlanco = fila;
+                        columnaBlanco = i;
+                        break;
+                }
+        }
+        if(hayBlancos){
+                for(int i = columna; i>=0; i--){
+                        if(matriz[filaBlanco][i] == "[N]"){
+                                matriz[filaBlanco][i] = "[ ]";
+                        }
+                }
+        }
+	return matriz;
+}
+
 int filaJuego(char letra){
 	int col;
 	if(letra == 'a' || letra == 'A'){
